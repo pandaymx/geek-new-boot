@@ -14,35 +14,36 @@ import org.testcontainers.utility.DockerImageName;
 @TestConfiguration(proxyBeanMethods = false)
 class TestcontainersConfiguration {
 
-	@Bean
-	@ServiceConnection
-	@Ssl
-	ElasticsearchContainer elasticsearchContainer() {
-		return new ElasticsearchContainer(DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:9.3.3"));
-	}
+    @Bean
+    @ServiceConnection
+    @Ssl
+    ElasticsearchContainer elasticsearchContainer() {
+        return new ElasticsearchContainer(
+                DockerImageName.parse("docker.elastic.co/elasticsearch/elasticsearch:9.3.3"));
+    }
 
-	@Bean
-	@ServiceConnection
-	MySQLContainer mysqlContainer() {
-		return new MySQLContainer(DockerImageName.parse("mysql:latest"));
-	}
+    @Bean
+    @ServiceConnection
+    MySQLContainer mysqlContainer() {
+        return new MySQLContainer(DockerImageName.parse("mysql:latest"));
+    }
 
-	@Bean
-	@ServiceConnection
-	OracleContainer oracleFreeContainer() {
-		return new OracleContainer(DockerImageName.parse("gvenzl/oracle-free:latest"));
-	}
+    @Bean
+    @ServiceConnection
+    OracleContainer oracleFreeContainer() {
+        return new OracleContainer(DockerImageName.parse("gvenzl/oracle-free:latest"));
+    }
 
-	@Bean
-	@ServiceConnection
-	PostgreSQLContainer postgresContainer() {
-		return new PostgreSQLContainer(DockerImageName.parse("postgres:latest"));
-	}
+    @Bean
+    @ServiceConnection
+    PostgreSQLContainer postgresContainer() {
+        return new PostgreSQLContainer(DockerImageName.parse("postgres:latest"));
+    }
 
-	@Bean
-	@ServiceConnection
-	MSSQLServerContainer sqlServerContainer() {
-		return new MSSQLServerContainer(DockerImageName.parse("mcr.microsoft.com/mssql/server:latest"));
-	}
-
+    @Bean
+    @ServiceConnection
+    MSSQLServerContainer sqlServerContainer() {
+        return new MSSQLServerContainer(
+                DockerImageName.parse("mcr.microsoft.com/mssql/server:latest"));
+    }
 }
