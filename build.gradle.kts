@@ -4,6 +4,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.7"
 	id("org.hibernate.orm") version "7.4.0.Final"
 	id("org.graalvm.buildtools.native") version "1.1.1"
+	id("com.diffplug.spotless") version "8.6.0"
 }
 
 group = "com.ppmb"
@@ -71,6 +72,21 @@ dependencies {
 	testImplementation("org.testcontainers:testcontainers-postgresql")
 	testImplementation("org.testcontainers:testcontainers-rabbitmq")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+spotless {
+    java {
+        // 自动切除不使用的 import、去除末尾空格、确保文件以换行符结尾
+        removeUnusedImports()
+        trimTrailingWhitespace()
+        endWithNewline()
+
+        // 强绑定 Google Java Style (使用 4 个空格缩进的 AOSP 变种)
+        googleJavaFormat().aosp()
+        
+        // Kotlin DSL 传入多个路径的正确语法：使用 target() 函数
+        target("src/main/java/**/*.java", "src/test/java/**/*.java")
+    }
 }
 
 dependencyManagement {
