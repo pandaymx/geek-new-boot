@@ -1,0 +1,89 @@
+plugins {
+	java
+	id("org.springframework.boot") version "4.1.0-SNAPSHOT"
+	id("io.spring.dependency-management") version "1.1.7"
+	id("org.hibernate.orm") version "7.4.0.Final"
+	id("org.graalvm.buildtools.native") version "1.1.1"
+}
+
+group = "com.ppmb"
+version = "0.0.1-SNAPSHOT"
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(25)
+	}
+}
+
+repositories {
+	mavenCentral()
+	maven { url = uri("https://repo.spring.io/snapshot") }
+}
+
+extra["springModulithVersion"] = "2.1.0-RC1"
+
+dependencies {
+	implementation("org.springframework.boot:spring-boot-h2console")
+	implementation("org.springframework.boot:spring-boot-micrometer-tracing-brave")
+	implementation("org.springframework.boot:spring-boot-starter-actuator")
+	implementation("org.springframework.boot:spring-boot-starter-amqp")
+	implementation("org.springframework.boot:spring-boot-starter-data-elasticsearch")
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.springframework.boot:spring-boot-starter-security")
+	implementation("org.springframework.boot:spring-boot-starter-security-oauth2-client")
+	implementation("org.springframework.boot:spring-boot-starter-validation")
+	implementation("org.springframework.boot:spring-boot-starter-webmvc")
+	implementation("org.springframework.boot:spring-boot-starter-websocket")
+	implementation("io.micrometer:micrometer-tracing-bridge-brave")
+	implementation("org.springframework.amqp:spring-rabbit-stream")
+	implementation("org.springframework.modulith:spring-modulith-events-api")
+	implementation("org.springframework.modulith:spring-modulith-starter-core")
+	implementation("org.springframework.modulith:spring-modulith-starter-jpa")
+	implementation("org.springframework.security:spring-security-webauthn")
+	developmentOnly("org.springframework.boot:spring-boot-devtools")
+	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+	runtimeOnly("com.h2database:h2")
+	runtimeOnly("com.microsoft.sqlserver:mssql-jdbc")
+	runtimeOnly("com.mysql:mysql-connector-j")
+	runtimeOnly("com.oracle.database.jdbc:ojdbc11")
+	runtimeOnly("io.micrometer:micrometer-registry-prometheus")
+	runtimeOnly("org.postgresql:postgresql")
+	runtimeOnly("org.springframework.modulith:spring-modulith-actuator")
+	runtimeOnly("org.springframework.modulith:spring-modulith-events-amqp")
+	runtimeOnly("org.springframework.modulith:spring-modulith-observability")
+	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+	testImplementation("org.springframework.boot:spring-boot-micrometer-tracing-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-actuator-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-data-elasticsearch-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-data-jpa-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-security-oauth2-client-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-security-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-validation-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-webmvc-test")
+	testImplementation("org.springframework.boot:spring-boot-starter-websocket-test")
+	testImplementation("org.springframework.boot:spring-boot-testcontainers")
+	testImplementation("org.springframework.modulith:spring-modulith-starter-test")
+	testImplementation("org.testcontainers:testcontainers-elasticsearch")
+	testImplementation("org.testcontainers:testcontainers-junit-jupiter")
+	testImplementation("org.testcontainers:testcontainers-mssqlserver")
+	testImplementation("org.testcontainers:testcontainers-mysql")
+	testImplementation("org.testcontainers:testcontainers-oracle-free")
+	testImplementation("org.testcontainers:testcontainers-postgresql")
+	testImplementation("org.testcontainers:testcontainers-rabbitmq")
+	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+}
+
+dependencyManagement {
+	imports {
+		mavenBom("org.springframework.modulith:spring-modulith-bom:${property("springModulithVersion")}")
+	}
+}
+
+hibernate {
+	enhancement {
+	}
+}
+
+tasks.withType<Test> {
+	useJUnitPlatform()
+}
