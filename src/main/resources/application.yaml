@@ -1,3 +1,18 @@
 spring:
   application:
     name: geek-new
+
+management:
+  endpoints:
+    web:
+      exposure:
+        # 1. 严格限制暴露的端点。绝对不要写 "*"！
+        # 生产环境通常只需暴露健康检查(health)和基础信息(info)。
+        # 如果需要 Prometheus 收集指标，再追加 , prometheus
+        include: health, info
+  endpoint:
+    health:
+      # 2. 控制健康检查的详细程度。
+      # local-dev 阶段可以设为 always 方便调测（能看到数据库、ES 连没连上）。
+      # 生产环境强烈建议设为 when-authorized 或 never，防止恶意扫描直接看到你的内网依赖拓扑。
+      show-details: always
