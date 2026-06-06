@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+spring:
+  config:
+    activate:
+      on-profile: local
+
+# Local environment specific settings can go here.
