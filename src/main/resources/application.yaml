@@ -1,6 +1,8 @@
 spring:
   application:
     name: geek-new
+  profiles:
+    active: local
 
 management:
   endpoints:
