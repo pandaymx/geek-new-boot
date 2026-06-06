@@ -1,6 +1,7 @@
 package com.ppmb.core.storage;
 
 import java.io.InputStream;
+import org.springframework.http.HttpMethod;
 
 /** Unified storage abstraction interface. Responsible for physical file storage operations. */
 public interface StorageService {
@@ -32,4 +33,14 @@ public interface StorageService {
      * @return provider identifier
      */
     String getProvider();
+
+    /**
+     * Generate a presigned URL for direct access to the storage provider.
+     *
+     * @param bucketName The bucket or root directory name
+     * @param objectName The unique physical name
+     * @param method The HTTP method for the presigned URL (e.g. GET, PUT)
+     * @return The presigned URL
+     */
+    String generatePresignedUrl(String bucketName, String objectName, HttpMethod method);
 }
