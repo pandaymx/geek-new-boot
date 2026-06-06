@@ -34,7 +34,6 @@ public interface StorageService {
      */
     String getProvider();
 
-
     /**
      * Generate a presigned URL for direct access to the storage provider.
      *

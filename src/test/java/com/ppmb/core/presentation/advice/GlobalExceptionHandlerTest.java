@@ -32,7 +32,8 @@ class GlobalExceptionHandlerTest {
         LocaleContextHolder.setLocale(Locale.SIMPLIFIED_CHINESE);
         BusinessException exception = new UserNotFoundException(); // code 10001
 
-        when(messageSource.getMessage(eq("error.10001"), any(), any(), eq(Locale.SIMPLIFIED_CHINESE)))
+        when(messageSource.getMessage(
+                        eq("error.10001"), any(), any(), eq(Locale.SIMPLIFIED_CHINESE)))
                 .thenReturn("用户不存在");
 
         // Act
