@@ -17,14 +17,20 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup Java
+      # 优化：对齐你使用的 GraalVM Java 25 环境
+      - name: Setup GraalVM Java 25
         uses: actions/setup-java@v4
         with:
-          distribution: 'temurin'
+          distribution: 'graalvm'
           java-version: '25'
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
+      # 修复：防止 Ubuntu 环境下权限不足导致构建失败
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+
+      # 优化：加入刷新依赖参数，防止 Spring Boot 4.x 快照版缓存作祟
       - name: Build and Test (No Native Compilation)
-        run: ./gradlew check test
+        run: ./gradlew check test --no-configuration-cache --refresh-dependencies
