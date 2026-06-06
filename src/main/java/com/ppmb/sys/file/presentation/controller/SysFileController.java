@@ -1,6 +1,6 @@
 package com.ppmb.sys.file.presentation.controller;
 
-import com.ppmb.core.presentation.Result;
+import com.ppmb.core.presentation.response.Result;
 import com.ppmb.sys.file.application.service.SysFileService;
 import com.ppmb.sys.file.domain.entity.SysFile;
 import com.ppmb.sys.file.presentation.dto.SysFileResponse;
