@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Phone {
 
-    String message() default "手机号码格式不正确";
+    String message() default "{validation.phone.invalid}";
 
     Class<?>[] groups() default {};
 
