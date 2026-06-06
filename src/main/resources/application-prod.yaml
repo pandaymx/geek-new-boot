@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+management:
+  endpoint:
+    health:
+      show-details: when-authorized
+
+# Prod environment specific settings can go here.
