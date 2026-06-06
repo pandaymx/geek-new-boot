@@ -23,7 +23,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Password {
 
-    String message() default "密码必须包含大小写字母、数字和特殊字符，且长度为8-20位";
+    String message() default "{validation.password.invalid}";
 
     Class<?>[] groups() default {};
 

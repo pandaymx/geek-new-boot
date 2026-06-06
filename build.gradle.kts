@@ -41,6 +41,7 @@ dependencies {
 	implementation("org.springframework.modulith:spring-modulith-starter-core")
 	implementation("org.springframework.modulith:spring-modulith-starter-jpa")
 	implementation("org.springframework.security:spring-security-webauthn")
+	implementation("net.ttddyy:datasource-proxy:1.11.0")
 	implementation("com.auth0:java-jwt:4.4.0")
 	implementation(platform("software.amazon.awssdk:bom:2.46.4"))
 	implementation("software.amazon.awssdk:s3")
