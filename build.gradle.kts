@@ -42,6 +42,7 @@ dependencies {
 	implementation("org.springframework.modulith:spring-modulith-starter-jpa")
 	implementation("org.springframework.security:spring-security-webauthn")
 	implementation("net.ttddyy:datasource-proxy:1.11.0")
+	implementation("com.auth0:java-jwt:4.4.0")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 	runtimeOnly("com.h2database:h2")
