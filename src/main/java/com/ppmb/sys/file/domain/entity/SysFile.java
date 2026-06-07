@@ -3,6 +3,7 @@ package com.ppmb.sys.file.domain.entity;
 import com.ppmb.core.domain.base.AbstractEntity;
 import com.ppmb.core.domain.base.Auditable;
 import com.ppmb.core.domain.base.model.AuditInfo;
+import com.ppmb.sys.file.domain.model.FileStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -44,6 +45,12 @@ public class SysFile extends AbstractEntity<Long> implements Auditable {
     @Column(name = "bucket_name", length = 100)
     private String bucketName;
 
+    @Column(name = "object_key", length = 512, nullable = false)
+    private String objectKey;
+
+    @Column(name = "status", nullable = false)
+    private FileStatus status;
+
     @Embedded private AuditInfo auditInfo = AuditInfo.empty();
 
     protected SysFile() {
@@ -60,7 +67,9 @@ public class SysFile extends AbstractEntity<Long> implements Auditable {
             String contentType,
             String fileUrl,
             String provider,
-            String bucketName) {
+            String bucketName,
+            String objectKey,
+            FileStatus status) {
         this.id = id;
         this.bizType = bizType;
         this.fileName = fileName;
@@ -71,6 +80,8 @@ public class SysFile extends AbstractEntity<Long> implements Auditable {
         this.fileUrl = fileUrl;
         this.provider = provider;
         this.bucketName = bucketName;
+        this.objectKey = objectKey;
+        this.status = status;
     }
 
     @Override
@@ -122,5 +133,17 @@ public class SysFile extends AbstractEntity<Long> implements Auditable {
 
     public String getBucketName() {
         return bucketName;
+    }
+
+    public String getObjectKey() {
+        return objectKey;
+    }
+
+    public FileStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(FileStatus status) {
+        this.status = status;
     }
 }
