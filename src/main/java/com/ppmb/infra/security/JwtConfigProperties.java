@@ -1,5 +1,6 @@
 package com.ppmb.infra.security;
 
+import java.time.Duration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +12,11 @@ public class JwtConfigProperties {
     /** 密钥：默认值为一个安全的占位符，但在生产环境中应该被覆盖 */
     private String secret = "default-secret-key-that-is-at-least-256-bits-long-for-hmac";
 
-    /** 过期时间（毫秒），默认为 2 小时（2 * 60 * 60 * 1000 = 7200000 毫秒） */
-    private long expiration = 7200000L;
+    /** Access Token 过期时间，默认为 30 分钟 */
+    private Duration accessTokenExpiration = Duration.ofMinutes(30);
+
+    /** Refresh Token 过期时间，默认为 7 天 */
+    private Duration refreshTokenExpiration = Duration.ofDays(7);
 
     public String getSecret() {
         return secret;
@@ -22,11 +26,19 @@ public class JwtConfigProperties {
         this.secret = secret;
     }
 
-    public long getExpiration() {
-        return expiration;
+    public Duration getAccessTokenExpiration() {
+        return accessTokenExpiration;
     }
 
-    public void setExpiration(long expiration) {
-        this.expiration = expiration;
+    public void setAccessTokenExpiration(Duration accessTokenExpiration) {
+        this.accessTokenExpiration = accessTokenExpiration;
+    }
+
+    public Duration getRefreshTokenExpiration() {
+        return refreshTokenExpiration;
+    }
+
+    public void setRefreshTokenExpiration(Duration refreshTokenExpiration) {
+        this.refreshTokenExpiration = refreshTokenExpiration;
     }
 }

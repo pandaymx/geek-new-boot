@@ -26,6 +26,10 @@ public class SecurityConfiguration {
                                         .requestMatchers(EndpointRequest.toAnyEndpoint())
                                         .permitAll()
 
+                                        // 放行认证相关端点
+                                        .requestMatchers("/auth/refresh", "/auth/login")
+                                        .permitAll()
+
                                         // 放行 Swagger 相关路径
                                         .requestMatchers(
                                                 "/swagger-ui/**",
