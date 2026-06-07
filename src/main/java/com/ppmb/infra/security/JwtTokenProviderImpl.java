@@ -43,7 +43,8 @@ public class JwtTokenProviderImpl implements IdentityTokenProvider {
     @Override
     public String createAccessToken(Long userId, String username, Set<String> roles) {
         Instant now = Instant.now();
-        Instant expiryDate = now.plusMillis(jwtConfigProperties.getExpiration());
+        Instant expiryDate =
+                now.plusMillis(jwtConfigProperties.getAccessTokenExpiration().toMillis());
 
         // Java 21+ 支持流式处理等优雅操作。此处直接利用集合转换
         List<String> rolesList = (roles != null) ? List.copyOf(roles) : List.of();

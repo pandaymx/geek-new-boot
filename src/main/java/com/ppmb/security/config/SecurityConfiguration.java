@@ -26,6 +26,10 @@ public class SecurityConfiguration {
                                         .requestMatchers(EndpointRequest.toAnyEndpoint())
                                         .permitAll()
 
+                                        // 放行认证相关端点
+                                        .requestMatchers("/auth/refresh", "/auth/login")
+                                        .permitAll()
+
                                         // 其他所有请求依然保持原样，需要认证（或者你可以根据需求调整）
                                         .anyRequest()
                                         .authenticated())

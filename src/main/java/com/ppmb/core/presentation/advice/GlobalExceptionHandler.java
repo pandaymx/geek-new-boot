@@ -6,6 +6,7 @@ import com.ppmb.core.presentation.response.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -23,6 +24,16 @@ public class GlobalExceptionHandler {
         log.warn(
                 "Business exception occurred: [{}] {}", e.getErrorCode().code(), e.getMessage(), e);
         return Result.error(e.getErrorCode().code(), e.getMessage());
+    }
+
+    /** Handle validation exceptions. */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Result<Void> handleValidationException(MethodArgumentNotValidException e) {
+        log.warn("Validation exception occurred: {}", e.getMessage());
+        return Result.error(
+                SystemErrorCode.BAD_REQUEST.code(),
+                "Validation failed: " + e.getFieldError().getDefaultMessage());
     }
 
     /** Handle generic exceptions (fallback). */
