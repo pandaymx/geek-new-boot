@@ -24,3 +24,9 @@ storage:
     # url-prefix: https://cdn.yourdomain.com
     path-style-access-enabled: false
     expiration: 15m
+
+springdoc:
+  api-docs:
+    enabled: false
+  swagger-ui:
+    enabled: false

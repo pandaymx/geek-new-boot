@@ -22,3 +22,14 @@ management:
       # local-dev 阶段可以设为 always 方便调测（能看到数据库、ES 连没连上）。
       # 生产环境强烈建议设为 when-authorized 或 never，防止恶意扫描直接看到你的内网依赖拓扑。
       show-details: always
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+  # Custom API documentation properties
+  info:
+    title: GeekNew 后台管理系统 API 接口文档
+    description: 基于 Spring Boot 4.1 & Java 25 虚拟线程架构的现代化、多租户企业级后台管理系统。
+    version: "@project.version@"

@@ -46,6 +46,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
 	implementation("com.fasterxml.jackson.core:jackson-databind")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
 	implementation("com.github.ben-manes.caffeine:caffeine")
