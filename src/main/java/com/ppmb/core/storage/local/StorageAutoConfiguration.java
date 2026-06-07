@@ -18,7 +18,7 @@ public class StorageAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(StorageService.class)
-    public StorageService localStorageService(LocalStorageProperties properties) {
+    public LocalStorageService localStorageService(LocalStorageProperties properties) {
         return new LocalStorageService(properties);
     }
 }
