@@ -32,4 +32,4 @@ springdoc:
   info:
     title: GeekNew 后台管理系统 API 接口文档
     description: 基于 Spring Boot 4.1 & Java 25 虚拟线程架构的现代化、多租户企业级后台管理系统。
-    version: @project.version@
+    version: "@project.version@"
