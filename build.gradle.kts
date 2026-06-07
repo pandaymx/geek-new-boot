@@ -46,6 +46,7 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
 	implementation("io.micrometer:micrometer-tracing-bridge-brave")
 	implementation("org.springframework.amqp:spring-rabbit-stream")
 	implementation("org.springframework.modulith:spring-modulith-events-api")
