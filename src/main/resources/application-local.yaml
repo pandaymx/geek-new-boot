@@ -7,3 +7,19 @@ spring:
       on-profile: local
 
 # Local environment specific settings can go here.
+
+storage:
+  provider: local # Use local storage by default in local env
+  # provider: s3 # Uncomment to use minio in local env
+  local:
+    base-path: ./data/uploads
+    url-prefix: http://localhost:8080/uploads
+  s3:
+    endpoint: http://localhost:9000
+    region: us-east-1
+    access-key: minioadmin
+    secret-key: minioadmin
+    bucket-name: mybucket
+    url-prefix: http://localhost:9000/mybucket
+    path-style-access-enabled: true
+    expiration: 15m

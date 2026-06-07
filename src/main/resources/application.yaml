@@ -3,6 +3,10 @@ spring:
     name: geek-new
   profiles:
     active: local
+  messages:
+    basename: i18n/messages
+    encoding: UTF-8
+    fallback-to-system-locale: false
 
 management:
   endpoints:

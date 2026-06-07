@@ -12,3 +12,15 @@ management:
       show-details: when-authorized
 
 # Prod environment specific settings can go here.
+
+storage:
+  provider: s3
+  s3:
+    # endpoint: https://s3.your-region.amazonaws.com
+    # region: your-region
+    # access-key: your-access-key
+    # secret-key: your-secret-key
+    # bucket-name: your-bucket-name
+    # url-prefix: https://cdn.yourdomain.com
+    path-style-access-enabled: false
+    expiration: 15m

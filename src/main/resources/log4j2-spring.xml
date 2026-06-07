@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %highlight{%-5level} %cyan{%logger{50}} - [TraceId: %X{traceId}] - %msg%n</Property>
+        <Property name="FILE_LOG_PATTERN">%d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %-5level %logger{50} - [TraceId: %X{traceId}] - %msg%n</Property>
+        <Property name="LOG_HOME">logs</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+
+        <RollingFile name="RollingFile" fileName="${LOG_HOME}/app.log"
+                     filePattern="${LOG_HOME}/app-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${FILE_LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+
+        <RollingFile name="OpLogFile" fileName="${LOG_HOME}/oplog.log"
+                     filePattern="${LOG_HOME}/oplog-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout pattern="${FILE_LOG_PATTERN}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+                <SizeBasedTriggeringPolicy size="50 MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="30"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <!-- The OpLog logger, we use AsyncLogger if not full async, but with ContextSelector it's all async.
+             Still, we define it here -->
+        <Logger name="AUDIT_LOGGER" level="INFO" additivity="false">
+            <springProfile name="local,dev">
+                <AppenderRef ref="Console"/>
+            </springProfile>
+            <AppenderRef ref="OpLogFile"/>
+        </Logger>
+
+        <springProfile name="local,dev">
+            <Logger name="com.ppmb" level="DEBUG" additivity="false">
+                <AppenderRef ref="Console"/>
+            </Logger>
+            <Root level="INFO">
+                <AppenderRef ref="Console"/>
+            </Root>
+        </springProfile>
+
+        <springProfile name="prod,test">
+            <Root level="INFO">
+                <AppenderRef ref="RollingFile"/>
+            </Root>
+        </springProfile>
+    </Loggers>
+</Configuration>
