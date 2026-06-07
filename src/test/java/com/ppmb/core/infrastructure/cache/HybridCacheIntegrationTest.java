@@ -36,6 +36,7 @@ class HybridCacheIntegrationTest {
 
     @Container
     @org.springframework.boot.testcontainers.service.connection.ServiceConnection(name = "redis")
+    @SuppressWarnings("resource")
     static GenericContainer<?> valkeyContainer =
             new GenericContainer<>("valkey/valkey:latest").withExposedPorts(6379);
 
