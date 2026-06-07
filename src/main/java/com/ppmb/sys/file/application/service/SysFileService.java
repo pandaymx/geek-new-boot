@@ -3,12 +3,15 @@ package com.ppmb.sys.file.application.service;
 import com.ppmb.core.infrastructure.id.SnowflakeIdGenerator;
 import com.ppmb.core.storage.StorageService;
 import com.ppmb.sys.file.domain.entity.SysFile;
+import com.ppmb.sys.file.domain.event.FileDeletedEvent;
+import com.ppmb.sys.file.domain.model.FileStatus;
 import com.ppmb.sys.file.domain.repository.SysFileRepository;
 import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,14 +23,17 @@ public class SysFileService {
     private final StorageService storageService;
     private final SysFileRepository sysFileRepository;
     private final SnowflakeIdGenerator idGenerator;
+    private final ApplicationEventPublisher eventPublisher;
 
     public SysFileService(
             StorageService storageService,
             SysFileRepository sysFileRepository,
-            SnowflakeIdGenerator idGenerator) {
+            SnowflakeIdGenerator idGenerator,
+            ApplicationEventPublisher eventPublisher) {
         this.storageService = storageService;
         this.sysFileRepository = sysFileRepository;
         this.idGenerator = idGenerator;
+        this.eventPublisher = eventPublisher;
     }
 
     /**
@@ -83,7 +89,9 @@ public class SysFileService {
                         contentType,
                         url,
                         storageService.getProvider(),
-                        bucketName);
+                        bucketName,
+                        objectName,
+                        FileStatus.NORMAL);
 
         return sysFileRepository.save(sysFile);
     }
@@ -100,51 +108,21 @@ public class SysFileService {
                 .findById(fileId)
                 .ifPresent(
                         sysFile -> {
-                            // Delete physically via StorageService
-                            try {
-                                // Object name was stored indirectly, reconstruct it based on
-                                // original generation logic
-                                // Or simply pass what is needed. If we don't have objectName
-                                // explicitly stored,
-                                // we reconstruct it or extract from URL if possible.
-                                // Based on our saving strategy: the relative path inside bucket is
-                                // needed.
-                                // We should parse the URL or reconstruct.
-                                // For simplicity, let's reconstruct it. Since we partition by date,
-                                // we might not know it
-                                // perfectly unless we store the relative path.
-                                // Let's refine: actually `bucketName` was stored. We can extract
-                                // the relative path from the URL.
-                                String relativePath =
-                                        extractRelativePath(
-                                                sysFile.getFileUrl(), sysFile.getBucketName());
-                                storageService.delete(sysFile.getBucketName(), relativePath);
-                            } catch (Exception e) {
-                                log.error(
-                                        "Failed to physically delete file {}: {}",
-                                        fileId,
-                                        e.getMessage());
-                                // In a robust system, we might queue this for retry or ignore based
-                                // on business needs.
-                                // Proceeding to delete metadata anyway for now.
-                            }
+                            // Perform soft deletion
+                            sysFile.setStatus(FileStatus.DELETED);
+                            sysFileRepository.save(sysFile);
 
-                            // Delete metadata
-                            sysFileRepository.delete(sysFile);
-                            log.info("File metadata deleted for id: {}", fileId);
+                            // Publish domain event for physical deletion (asynchronous)
+                            eventPublisher.publishEvent(
+                                    new FileDeletedEvent(
+                                            this,
+                                            sysFile.getId(),
+                                            sysFile.getBucketName(),
+                                            sysFile.getObjectKey()));
+
+                            log.info(
+                                    "File metadata marked as DELETED for id: {}, pending physical removal.",
+                                    fileId);
                         });
-    }
-
-    private String extractRelativePath(String fileUrl, String bucketName) {
-        // e.g. URL: http://localhost:8080/uploads/avatar/2026/06/07/123.png
-        // We need: 2026/06/07/123.png
-        // We know bucketName is "avatar"
-        String searchStr = "/" + bucketName + "/";
-        int index = fileUrl.indexOf(searchStr);
-        if (index != -1) {
-            return fileUrl.substring(index + searchStr.length());
-        }
-        // Fallback: If we can't extract cleanly, just return filename (might fail deletion)
-        return fileUrl.substring(fileUrl.lastIndexOf('/') + 1);
     }
 }
