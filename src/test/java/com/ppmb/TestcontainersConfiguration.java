@@ -1,5 +1,6 @@
 package com.ppmb;
 
+import com.redis.testcontainers.RedisContainer;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;
 import org.springframework.boot.testcontainers.service.connection.Ssl;
@@ -13,6 +14,12 @@ import org.testcontainers.utility.DockerImageName;
 
 @TestConfiguration(proxyBeanMethods = false)
 class TestcontainersConfiguration {
+
+    @Bean
+    @ServiceConnection
+    RedisContainer redisContainer() {
+        return new RedisContainer(DockerImageName.parse("valkey/valkey:latest"));
+    }
 
     @Bean
     @ServiceConnection

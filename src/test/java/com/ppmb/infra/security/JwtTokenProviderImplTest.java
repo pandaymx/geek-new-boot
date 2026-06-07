@@ -16,7 +16,8 @@ class JwtTokenProviderImplTest {
     void setUp() {
         JwtConfigProperties properties = new JwtConfigProperties();
         properties.setSecret("my-super-secret-key-for-testing-only");
-        properties.setExpiration(10000L); // 10 seconds expiration for testing
+        properties.setAccessTokenExpiration(
+                java.time.Duration.ofMillis(10000L)); // 10 seconds expiration for testing
         jwtTokenProvider = new JwtTokenProviderImpl(properties);
         jwtTokenProvider.init();
     }
@@ -52,7 +53,7 @@ class JwtTokenProviderImplTest {
     void testExpiredTokenThrowsException() throws InterruptedException {
         JwtConfigProperties properties = new JwtConfigProperties();
         properties.setSecret("my-super-secret-key-for-testing-only");
-        properties.setExpiration(1L); // 1 millisecond
+        properties.setAccessTokenExpiration(java.time.Duration.ofMillis(1L)); // 1 millisecond
         JwtTokenProviderImpl shortLivedProvider = new JwtTokenProviderImpl(properties);
         shortLivedProvider.init();
 
