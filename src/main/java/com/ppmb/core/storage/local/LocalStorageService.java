@@ -81,4 +81,14 @@ public class LocalStorageService implements StorageService {
     public String getProvider() {
         return "local";
     }
+    @Override
+    public String generatePresignedUrl(
+            String bucketName, String objectName, org.springframework.http.HttpMethod method) {
+        String urlPrefix = properties.getUrlPrefix();
+        if (!urlPrefix.endsWith("/")) {
+            urlPrefix += "/";
+        }
+        // Generate a dummy URL that points back to our local controller
+        return urlPrefix + "local-s3/" + bucketName + "/" + objectName + "?dummy-signature=true";
+    }
 }

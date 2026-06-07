@@ -5,9 +5,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 
-@Disabled("Testcontainers may fail to run in sandbox environments without a Docker daemon")
+@Disabled("Testcontainers fails to run in sandbox environment due to overlayfs issues")
 @Import(TestcontainersConfiguration.class)
-@SpringBootTest
+@SpringBootTest(properties = {"spring.modulith.republish-outstanding-events-on-restart=false"})
 class GeekNewApplicationTests {
 
     @Test

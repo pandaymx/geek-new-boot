@@ -19,11 +19,22 @@ java {
 repositories {
 	mavenCentral()
 	maven { url = uri("https://repo.spring.io/snapshot") }
+	maven { url = uri("https://repo.spring.io/milestone") }
 }
 
 extra["springModulithVersion"] = "2.1.0-RC1"
 
+configurations {
+	all {
+		exclude(group = "org.springframework.boot", module = "spring-boot-starter-logging")
+	}
+}
+
 dependencies {
+	implementation("org.springframework.boot:spring-boot-starter-log4j2")
+	implementation("com.lmax:disruptor:4.0.0") // LMAX Disruptor for async Log4j2
+	implementation("org.aspectj:aspectjweaver:1.9.22") // We use explicit version because spring-boot-starter-aop resolution is failing in this snapshot
+
 	implementation("org.springframework.boot:spring-boot-h2console")
 	implementation("org.springframework.boot:spring-boot-micrometer-tracing-brave")
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -35,14 +46,20 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
+	implementation("com.fasterxml.jackson.core:jackson-databind")
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("com.github.ben-manes.caffeine:caffeine")
 	implementation("io.micrometer:micrometer-tracing-bridge-brave")
 	implementation("org.springframework.amqp:spring-rabbit-stream")
 	implementation("org.springframework.modulith:spring-modulith-events-api")
 	implementation("org.springframework.modulith:spring-modulith-starter-core")
 	implementation("org.springframework.modulith:spring-modulith-starter-jpa")
 	implementation("org.springframework.security:spring-security-webauthn")
+	implementation("net.ttddyy:datasource-proxy:1.11.0")
 	implementation("com.auth0:java-jwt:4.4.0")
+	implementation(platform("software.amazon.awssdk:bom:2.46.4"))
+	implementation("software.amazon.awssdk:s3")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 	runtimeOnly("com.h2database:h2")
@@ -75,6 +92,7 @@ dependencies {
 	testImplementation("org.testcontainers:testcontainers-postgresql")
 	testImplementation("org.testcontainers:testcontainers-rabbitmq")
 	testImplementation("com.redis:testcontainers-redis:2.2.4")
+	testImplementation("org.testcontainers:testcontainers")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

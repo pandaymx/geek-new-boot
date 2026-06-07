@@ -30,6 +30,13 @@ public class SecurityConfiguration {
                                         .requestMatchers("/auth/refresh", "/auth/login")
                                         .permitAll()
 
+                                        // 放行 Swagger 相关路径
+                                        .requestMatchers(
+                                                "/swagger-ui/**",
+                                                "/v3/api-docs/**",
+                                                "/swagger-ui.html")
+                                        .permitAll()
+
                                         // 其他所有请求依然保持原样，需要认证（或者你可以根据需求调整）
                                         .anyRequest()
                                         .authenticated())
