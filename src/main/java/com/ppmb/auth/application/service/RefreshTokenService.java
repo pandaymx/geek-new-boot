@@ -7,7 +7,6 @@ import com.ppmb.auth.spi.UserRoleProvider;
 import com.ppmb.infra.security.JwtConfigProperties;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -46,9 +45,9 @@ public class RefreshTokenService {
         String redisKey = getRedisKey(uuid);
         String redisValue = userId + ":" + username;
 
-        long expirationDays = jwtConfigProperties.getRefreshTokenExpiration().toDays();
-
-        stringRedisTemplate.opsForValue().set(redisKey, redisValue, expirationDays, TimeUnit.DAYS);
+        stringRedisTemplate
+                .opsForValue()
+                .set(redisKey, redisValue, jwtConfigProperties.getRefreshTokenExpiration());
 
         return uuid;
     }

@@ -14,7 +14,6 @@ import com.ppmb.infra.security.JwtConfigProperties;
 import java.time.Duration;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -60,7 +59,7 @@ class RefreshTokenServiceTest {
         // Assert valid UUID format
         assertThat(UUID.fromString(uuid)).isNotNull();
 
-        verify(valueOperations).set("rt:" + uuid, "1:testUser", 7L, TimeUnit.DAYS);
+        verify(valueOperations).set("rt:" + uuid, "1:testUser", Duration.ofDays(7));
     }
 
     @Test
@@ -85,7 +84,7 @@ class RefreshTokenServiceTest {
 
         verify(stringRedisTemplate).delete(oldRedisKey);
         verify(valueOperations)
-                .set("rt:" + response.refreshToken(), "1:testUser", 7L, TimeUnit.DAYS);
+                .set("rt:" + response.refreshToken(), "1:testUser", Duration.ofDays(7));
     }
 
     @Test
