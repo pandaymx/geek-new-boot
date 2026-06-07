@@ -23,6 +23,9 @@ public class ThreadPoolConfiguration {
      */
     @Bean(name = SYSTEM_LOG_EXECUTOR)
     public AsyncTaskExecutor systemLogExecutor() {
-        return new TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor());
+        TaskExecutorAdapter adapter =
+                new TaskExecutorAdapter(Executors.newVirtualThreadPerTaskExecutor());
+        adapter.setTaskDecorator(new MdcTaskDecorator());
+        return adapter;
     }
 }

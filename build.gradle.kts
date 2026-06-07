@@ -46,7 +46,10 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("org.springframework.boot:spring-boot-starter-webmvc")
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
-	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.5")
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:3.0.3")
+	implementation("com.fasterxml.jackson.core:jackson-databind")
+	implementation("org.springframework.boot:spring-boot-starter-data-redis")
+	implementation("com.github.ben-manes.caffeine:caffeine")
 	implementation("io.micrometer:micrometer-tracing-bridge-brave")
 	implementation("org.springframework.amqp:spring-rabbit-stream")
 	implementation("org.springframework.modulith:spring-modulith-events-api")
@@ -87,6 +90,7 @@ dependencies {
 	testImplementation("org.testcontainers:testcontainers-oracle-free")
 	testImplementation("org.testcontainers:testcontainers-postgresql")
 	testImplementation("org.testcontainers:testcontainers-rabbitmq")
+	testImplementation("org.testcontainers:testcontainers")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 

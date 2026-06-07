@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Import;
 
 @Disabled("Testcontainers fails to run in sandbox environment due to overlayfs issues")
 @Import(TestcontainersConfiguration.class)
-@SpringBootTest
+@SpringBootTest(properties = {"spring.modulith.republish-outstanding-events-on-restart=false"})
 class GeekNewApplicationTests {
 
     @Test
