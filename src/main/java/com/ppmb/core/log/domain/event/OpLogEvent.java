@@ -5,6 +5,7 @@ import java.time.Instant;
 /** 审计日志领域事件 */
 public record OpLogEvent(
         String traceId,
+        String tenantId,
         String operatorId,
         String operatorName,
         String title,

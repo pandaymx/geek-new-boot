@@ -61,6 +61,7 @@ public class OpLogAspect {
         // Obtain user info from Spring Security Context
         String operatorId = "";
         String operatorName = "";
+        String tenantId = ""; // No default tenant ID extractor in this context yet
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             operatorName = authentication.getName();
@@ -83,6 +84,7 @@ public class OpLogAspect {
             OpLogEvent event =
                     new OpLogEvent(
                             traceId,
+                            tenantId,
                             operatorId,
                             operatorName,
                             opLogAnnotation.title(),
